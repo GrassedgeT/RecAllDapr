@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  recall-textitem.api:
+    image: recall-textitemapi
+    build:
+      context: .
+      dockerfile: Contrib/TextItem.Api/Dockerfile
