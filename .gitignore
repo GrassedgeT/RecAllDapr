@@ -376,3 +376,4 @@ FodyWeavers.xsd
 /dataSources/
 /dataSources.local.xml
 .idea/
+dapr/components/recall-secrets.json

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RecAll.Contrib.TextItem.Api.Services;
 
@@ -10,12 +9,10 @@ using RecAll.Contrib.TextItem.Api.Services;
 
 namespace RecAll.Contrib.TextItem.Api.Migrations
 {
-    [DbContext(typeof(TextListContext))]
-    [Migration("20240315105210_Initial")]
-    partial class Initial
+    [DbContext(typeof(TextItemContext))]
+    partial class TextItemContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

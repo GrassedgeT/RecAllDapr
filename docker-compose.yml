@@ -1,8 +1,25 @@
 version: '3.4'
 
 services:
-  recall-textitem.api:
+  recall-zipkin:
+    image: openzipkin/zipkin-slim:latest  
+  
+  
+  recall-sqldata:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  
+  
+  recall-textitemapi:
     image: recall-textitemapi
     build:
       context: .
       dockerfile: Contrib/TextItem.Api/Dockerfile
+
+
+  recall-textitemapi-dapr:
+    image: "daprio/daprd:1.9.4"
+    network_mode: "service:recall-textitemapi"
+    depends_on:
+      - recall-textitemapi  

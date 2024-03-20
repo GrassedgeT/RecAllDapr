@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace RecAll.Contrib.TextItem.Api.Services
 {
-    public class TextListContext : DbContext
+    public class TextItemContext : DbContext
     {
         public DbSet<Models.TextItem> TextItems { get; set; }
-        public TextListContext(DbContextOptions<TextListContext> options) : base(options) { }
+        public TextItemContext(DbContextOptions<TextItemContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,10 +35,10 @@ namespace RecAll.Contrib.TextItem.Api.Services
         }
     }
 
-    public class  TextListContextDesignFactory : IDesignTimeDbContextFactory<TextListContext>
+    public class  TextListContextDesignFactory : IDesignTimeDbContextFactory<TextItemContext>
     {
-        public TextListContext CreateDbContext(string[] args) =>
-            new(new DbContextOptionsBuilder<TextListContext>()
+        public TextItemContext CreateDbContext(string[] args) =>
+            new(new DbContextOptionsBuilder<TextItemContext>()
             .UseSqlServer(
                 "Server=.;Initial Catalog=RecAll.TextListDb;Integrated Security=true")
             .Options);

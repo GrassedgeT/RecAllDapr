@@ -9,6 +9,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextItem.Api", "Contrib\Tex
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{183BD4E5-5887-47BB-8D8B-926B72FC5BB3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{F4E711AB-4113-48D0-B207-18C8EE0EE4C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{6757B5D7-8028-4CDD-A66F-DE83111D3A45}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\components\recall-secretstore.yaml = dapr\components\recall-secretstore.yaml
+		dapr\components\recall-secrets.json = dapr\components\recall-secrets.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{9CBBC384-2497-43B9-8963-85D6260DC325}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\configuration\recall-configuration.yaml = dapr\configuration\recall-configuration.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +42,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5B65E471-A3CB-41A3-9E18-2A0B4BBC9739} = {186805D3-9F6C-4B74-8BBD-504553AFEE41}
+		{6757B5D7-8028-4CDD-A66F-DE83111D3A45} = {F4E711AB-4113-48D0-B207-18C8EE0EE4C3}
+		{9CBBC384-2497-43B9-8963-85D6260DC325} = {F4E711AB-4113-48D0-B207-18C8EE0EE4C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31DC5870-910A-4889-9A6C-88D30C14D25A}
