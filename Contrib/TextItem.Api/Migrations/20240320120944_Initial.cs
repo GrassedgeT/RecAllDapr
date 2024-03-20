@@ -19,7 +19,7 @@ namespace RecAll.Contrib.TextItem.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    ItemId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ItemId = table.Column<int>(type: "int", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserIdentityGuid = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
