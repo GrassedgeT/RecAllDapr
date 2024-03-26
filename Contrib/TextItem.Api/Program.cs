@@ -6,9 +6,10 @@ builder.AddCustomConfiguration();
 builder.AddCustomDatabase();
 builder.AddCustomApplicationServices();
 builder.AddCustomSwagger();
+builder.AddCustomSerilog();
+builder.AddInvalidModelStateResponseFactory();
 
 builder.Services.AddControllers();
-Console.WriteLine(builder.Configuration["ConnectionStrings:TextItemContext"]);
 
 var app = builder.Build();
 

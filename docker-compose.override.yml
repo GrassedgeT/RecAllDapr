@@ -14,7 +14,12 @@ services:
       - "35433:1433"
     volumes:
       - recall-sqldata:/var/opt/mssql  
-        
+      
+  recall-seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "35340:80"      
         
   recall-textitemapi:
     environment:
@@ -28,7 +33,7 @@ services:
   recall-textitemapi-dapr:
     command: ["./daprd",
               "-app-id", "recall-textitemapi",
-              "-app-port", "80",
+              "-app-port", "8080",
               "-components-path", "/components",
               "-config", "/configuration/recall-configuration.yaml"
     ]

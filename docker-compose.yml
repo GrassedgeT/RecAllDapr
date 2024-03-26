@@ -4,6 +4,10 @@ services:
   recall-zipkin:
     image: openzipkin/zipkin-slim:latest  
   
+  recall-seq:
+    image: datalust/seq:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   
   recall-sqldata:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -23,3 +27,4 @@ services:
     network_mode: "service:recall-textitemapi"
     depends_on:
       - recall-textitemapi  
+  

@@ -12,7 +12,7 @@ using RecAll.Contrib.TextItem.Api.Services;
 namespace RecAll.Contrib.TextItem.Api.Migrations
 {
     [DbContext(typeof(TextItemContext))]
-    [Migration("20240320120944_Initial")]
+    [Migration("20240320133736_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

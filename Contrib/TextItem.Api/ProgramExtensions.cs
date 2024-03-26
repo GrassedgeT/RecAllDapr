@@ -1,8 +1,11 @@
 using Dapr.Client;
 using Dapr.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using RecAll.Contrib.TextItem.Api.Services;
+using Serilog;
+using TheSalLab.GeneralReturnValues;
 
 namespace RecAll.Contrib.TextItem.Api;
 
@@ -54,5 +57,30 @@ public static class ProgramExtensions
     public static void UseCustomSwagger(this WebApplication app) {
         app.UseSwagger();
         app.UseSwaggerUI();
+    }
+    
+    public static readonly string AppName = typeof(ProgramExtensions).Namespace;
+    public static void AddCustomSerilog(this WebApplicationBuilder builder) {
+        var seqServerUrl = builder.Configuration["Serilog:SeqServerUrl"];
+
+        Log.Logger = new LoggerConfiguration().ReadFrom
+            .Configuration(builder.Configuration).WriteTo.Console().WriteTo
+            .Seq(seqServerUrl).Enrich.WithProperty("ApplicationName", AppName)
+            .CreateLogger();
+
+        builder.Host.UseSerilog();
+    }
+    
+    public static void AddInvalidModelStateResponseFactory(
+        this WebApplicationBuilder builder) {
+        builder.Services.AddOptions().Configure<ApiBehaviorOptions>(options => {
+            options.InvalidModelStateResponseFactory = context =>
+                new OkObjectResult(ServiceResult
+                    .CreateInvalidParameterResult(
+                        new ValidationProblemDetails(context.ModelState).Errors
+                            .Select(p =>
+                                $"{p.Key}: {string.Join(" / ", p.Value)}"))
+                    .ToServiceResultViewModel());
+        });
     }
 }
