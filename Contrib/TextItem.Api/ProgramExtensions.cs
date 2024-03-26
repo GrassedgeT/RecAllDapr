@@ -1,7 +1,9 @@
 using Dapr.Client;
 using Dapr.Extensions.Configuration;
+using Infrastructure.Api;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Polly;
 using RecAll.Contrib.TextItem.Api.Services;
 using Serilog;
@@ -83,4 +85,12 @@ public static class ProgramExtensions
                     .ToServiceResultViewModel());
         });
     }
+    
+    public static void
+        AddCustomHealthChecks(this WebApplicationBuilder builder) =>
+        builder.Services.AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy()).AddDapr()
+            .AddSqlServer(builder.Configuration["ConnectionStrings:TextItemContext"]!,
+                name: "TextListDb-check", tags: new[] { "TextListDb" });
+
 }
