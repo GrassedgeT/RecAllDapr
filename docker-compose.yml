@@ -28,8 +28,8 @@ services:
     depends_on:
       - recall-textitemapi  
   
-  servicestatus:
-    image: ${DOCKER_REGISTRY-}servicestatus
+  recall-servicestatus:
+    image: recall-servicestatus
     build:
       context: .
       dockerfile: Infrastructure/ServiceStatus/Dockerfile
