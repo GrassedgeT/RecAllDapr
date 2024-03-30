@@ -75,7 +75,7 @@ public static class ProgramExtensions
     
     public static void AddInvalidModelStateResponseFactory(
         this WebApplicationBuilder builder) {
-        builder.Services.AddOptions().Configure<ApiBehaviorOptions>(options => {
+        builder.Services.AddOptions().PostConfigure<ApiBehaviorOptions>(options => {
             options.InvalidModelStateResponseFactory = context =>
                 new OkObjectResult(ServiceResult
                     .CreateInvalidParameterResult(

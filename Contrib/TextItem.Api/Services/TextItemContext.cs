@@ -21,7 +21,8 @@ namespace RecAll.Contrib.TextItem.Api.Services
         {
             builder.ToTable("textitems");
             builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).UseHiLo("textitem_hilo");
+            builder.Property(p => p.Id)
+                .UseHiLo("textitem_hilo");
 
             builder.Property(p => p.ItemId).IsRequired(false);
             builder.HasIndex(p => p.ItemId).IsUnique();
