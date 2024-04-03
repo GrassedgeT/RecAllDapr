@@ -1,6 +1,7 @@
 using System.Reflection;
 using Autofac;
 using MediatR;
+using RecAll.Core.List.Api.Application.Behaviors;
 using RecAll.Core.List.Api.Application.Commands;
 using Module = Autofac.Module;
 
@@ -12,5 +13,8 @@ public class MediatorModule : Module {
 
         builder.RegisterAssemblyTypes(typeof(CreateListCommand).GetTypeInfo().Assembly)
             .AsClosedTypesOf(typeof(IRequestHandler<,>));
+        
+        builder.RegisterGeneric(typeof(LoggingBehavior<,>))
+            .As(typeof(IPipelineBehavior<,>));
     }
 }
