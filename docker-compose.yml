@@ -44,3 +44,10 @@ services:
       context: .
       dockerfile: Infrastructure/ServiceStatus/Dockerfile
 
+
+  list.api:
+    image: ${DOCKER_REGISTRY-}listapi
+    build:
+      context: .
+      dockerfile: Core/List/List.Api/Dockerfile
+

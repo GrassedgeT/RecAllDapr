@@ -6,6 +6,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>RecAll.Core.List.Api</AssemblyName>
         <RootNamespace>RecAll.Core.List.Api</RootNamespace>
+        <UserSecretsId>4e8e5811-4e37-45aa-bbbb-9898dfa1e269</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..\..</DockerfileContext>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+    </ItemGroup>
 
 </Project>
