@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 using RecAll.Core.List.Domain.AggregateModels;
+using RecAll.Core.List.Domain.AggregateModels.SetAggregate;
 using RecAll.Core.List.Infrastructure.EntityConfigurations;
 using RecAll.Infrastructure.Ddd.Infrastructure;
 
@@ -16,6 +17,7 @@ public class ListContext : DbContext, IUnitOfWork {
 
     public DbSet<Domain.AggregateModels.List> Lists { get; set; }
 
+    public DbSet<Set> Sets { get; set; }
     public DbSet<ListType> ListTypes { get; set; }
 
     private readonly IMediator _mediator;
