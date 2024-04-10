@@ -1,3 +1,7 @@
+using Dapper;
+using Microsoft.Data.SqlClient;
+using RecAll.Core.List.Api.Application.Queries;
+
 namespace RecAll.Core.List.Api.Infrastructure.Services;
 
 public class SetQueryService : ISetQueryService {

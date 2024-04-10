@@ -1,3 +1,5 @@
+using RecAll.Core.List.Api.Application.Queries;
+
 namespace RecAll.Core.List.Api.Infrastructure.Services;
 
 public interface ISetQueryService {

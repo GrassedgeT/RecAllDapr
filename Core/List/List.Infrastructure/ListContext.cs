@@ -39,6 +39,7 @@ public class ListContext : DbContext, IUnitOfWork {
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.ApplyConfiguration(new ListTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ListConfiguration());
+        modelBuilder.ApplyConfiguration(new SetConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default) {
