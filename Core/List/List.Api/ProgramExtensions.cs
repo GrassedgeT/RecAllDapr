@@ -12,6 +12,7 @@ using RecAll.Core.List.Api.Infrastructure;
 using RecAll.Core.List.Api.Infrastructure.AutofacModules;
 using RecAll.Core.List.Api.Infrastructure.Filters;
 using RecAll.Core.List.Infrastructure;
+using RecAll.Infrastructure.IntegrationEventLog;
 using Serilog;
 using TheSalLab.GeneralReturnValues;
 
@@ -78,6 +79,17 @@ public static class ProgramExtensions
                         TimeSpan.FromSeconds(30), null);
                 });
         });
+        builder.Services.AddDbContext<IntegrationEventLogContext>(options => {
+            options.UseSqlServer(
+                builder.Configuration["ConnectionStrings:ListContext"],
+                sqlServerOptionsAction => {
+                    sqlServerOptionsAction.MigrationsAssembly(
+                        typeof(ProgramExtensions).GetTypeInfo().Assembly
+                            .GetName().Name);
+                    sqlServerOptionsAction.EnableRetryOnFailure(15,
+                        TimeSpan.FromSeconds(30), null);
+                });
+        });
     }
     
     public static void AddInvalidModelStateResponseFactory(
@@ -119,8 +131,10 @@ public static class ProgramExtensions
             scope.ServiceProvider.GetRequiredService<ListContext>();
         var listContextSeedLogger = scope.ServiceProvider
             .GetRequiredService<ILogger<ListContextSeed>>();
-
+        var integrationEventLogContext = scope.ServiceProvider
+            .GetRequiredService<IntegrationEventLogContext>();
         retryPolicy.Execute(() => {
+            integrationEventLogContext.Database.Migrate();
             listContext.Database.Migrate();
             new ListContextSeed().SeedAsync(listContext, listContextSeedLogger)
                 .Wait();

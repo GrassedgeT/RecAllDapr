@@ -15,11 +15,12 @@ public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand,
     private readonly IContribUrlService _contribUrlService;
     private readonly HttpClient _httpClient;
     private readonly IItemRepository _itemRepository;
-    
+    private readonly IListIntegrationEventService _listIntegrationEventService; 
     public CreateItemCommandHandler(ISetQueryService setQueryService,
         IIdentityService identityService, IItemRepository itemRepository,
         IContribUrlService contribUrlService,
-        IHttpClientFactory httpClientFactory) {
+        IHttpClientFactory httpClientFactory,
+        IListIntegrationEventService listIntegrationEventService) {
         _setQueryService = setQueryService ??
                            throw new ArgumentNullException(nameof(setQueryService));
         _identityService = identityService ??
@@ -28,6 +29,9 @@ public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand,
                           throw new ArgumentNullException(nameof(itemRepository));
         _contribUrlService = contribUrlService;
         _httpClient = httpClientFactory.CreateDefaultClient();
+        _listIntegrationEventService = listIntegrationEventService ??
+                                       throw new ArgumentNullException(
+                                           nameof(listIntegrationEventService));
     }
 
     public async Task<ServiceResult> Handle(CreateItemCommand command,

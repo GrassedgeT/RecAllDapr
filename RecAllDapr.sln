@@ -45,6 +45,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List.Infrastructure", "Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List.Api", "Core\List\List.Api\List.Api.csproj", "{F521C402-75CA-480E-88F3-F2528BCDE150}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "Infrastructure\EventBus\EventBus.csproj", "{81134400-2702-4AD3-BE22-20E791D72A1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLog", "Infrastructure\IntegrationEventLog\IntegrationEventLog.csproj", "{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{F521C402-75CA-480E-88F3-F2528BCDE150}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F521C402-75CA-480E-88F3-F2528BCDE150}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F521C402-75CA-480E-88F3-F2528BCDE150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81134400-2702-4AD3-BE22-20E791D72A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81134400-2702-4AD3-BE22-20E791D72A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81134400-2702-4AD3-BE22-20E791D72A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81134400-2702-4AD3-BE22-20E791D72A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +115,8 @@ Global
 		{E40E700E-C1F8-4251-8738-1992FE4A6080} = {5CF7A75F-5776-4C31-B699-C96CD88446AD}
 		{91104D3F-F37C-4861-A1ED-23927A4A551E} = {FB383D69-D22D-4E2A-9DFE-B027F78B902C}
 		{F521C402-75CA-480E-88F3-F2528BCDE150} = {FB383D69-D22D-4E2A-9DFE-B027F78B902C}
+		{81134400-2702-4AD3-BE22-20E791D72A1D} = {5CF7A75F-5776-4C31-B699-C96CD88446AD}
+		{45A1B15F-5E1A-48E4-9942-A00F2ECF6D72} = {5CF7A75F-5776-4C31-B699-C96CD88446AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31DC5870-910A-4889-9A6C-88D30C14D25A}
