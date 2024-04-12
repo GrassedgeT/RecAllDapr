@@ -33,5 +33,8 @@ public class MediatorModule : Module {
         
         builder.RegisterType<ListQueryService>().As<IListQueryService>()
             .InstancePerLifetimeScope();
+        builder.RegisterType<SetQueryService>().As<ISetQueryService>()
+            .InstancePerLifetimeScope();
+        
     }
 }
