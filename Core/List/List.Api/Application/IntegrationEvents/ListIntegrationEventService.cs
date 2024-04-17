@@ -5,7 +5,7 @@ using RecAll.Infrastructure.EventBus.Abstractions;
 using RecAll.Infrastructure.EventBus.Events;
 using RecAll.Infrastructure.IntegrationEventLog.Services;
 
-namespace RecAll.Core.List.Api.Infrastructure.Services;
+namespace RecAll.Core.List.Api.Application.IntegrationEvents;
 
 public class ListIntegrationEventService : IListIntegrationEventService {
     private readonly Func<DbConnection, IIntegrationEventLogService>

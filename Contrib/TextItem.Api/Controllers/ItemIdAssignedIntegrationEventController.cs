@@ -11,7 +11,6 @@ namespace RecAll.Contrib.TextItem.Api.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class ItemIdAssignedIntegrationEventController {
-    
     private readonly TextItemContext _textItemContext;
 
     private readonly ILogger<ItemIdAssignedIntegrationEventController> _logger;

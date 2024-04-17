@@ -1,6 +1,6 @@
 using RecAll.Infrastructure.EventBus.Events;
 
-namespace RecAll.Core.List.Api.Infrastructure.Services;
+namespace RecAll.Core.List.Api.Application.IntegrationEvents;
 
 public interface IListIntegrationEventService {
     Task AddAndSaveEventAsync(IntegrationEvent integrationEvent);

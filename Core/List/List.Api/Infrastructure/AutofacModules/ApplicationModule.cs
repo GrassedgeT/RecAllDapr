@@ -1,5 +1,6 @@
 using System.Data.Common;
 using Autofac;
+using RecAll.Core.List.Api.Application.IntegrationEvents;
 using RecAll.Core.List.Api.Infrastructure.Services;
 using RecAll.Core.List.Domain.AggregateModels;
 using RecAll.Core.List.Domain.AggregateModels.ItemAggregate;

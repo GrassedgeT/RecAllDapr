@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Infrastructure.Api.HttpClient;
 using MediatR;
+using RecAll.Core.List.Api.Application.IntegrationEvents;
 using RecAll.Core.List.Api.Infrastructure.Services;
 using RecAll.Core.List.Domain.AggregateModels.ItemAggregate;
 using TheSalLab.GeneralReturnValues;
@@ -85,7 +86,11 @@ public class CreateItemCommandHandler : IRequestHandler<CreateItemCommand,
         {
             return ServiceResult.CreateFailedResult();
         }
-
+        var itemIdAssignedIntegrationEvent =
+            new ItemIdAssignedIntegrationEvent(set.TypeId, contribResult.Result,
+                item.Id);
+        await _listIntegrationEventService.AddAndSaveEventAsync(
+            itemIdAssignedIntegrationEvent);
         return await _itemRepository.UnitOfWork.SaveEntitiesAsync(
             cancellationToken)
             ? ServiceResult.CreateSucceededResult()
