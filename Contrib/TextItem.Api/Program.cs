@@ -13,7 +13,7 @@ builder.AddCustomSerilog();
 builder.AddInvalidModelStateResponseFactory();
 
 builder.Services.AddDaprClient();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddDapr();
 
 var app = builder.Build();
 
@@ -27,6 +27,8 @@ if (app.Environment.IsDevelopment())
 app.MapCustomHealthChecks(
     responseWriter: UIResponseWriter.WriteHealthCheckUIResponse);
 
+app.UseCloudEvents();
 app.MapControllers();
+app.MapSubscribeHandler();
 app.ApplyDatabaseMigrations();
 app.Run();

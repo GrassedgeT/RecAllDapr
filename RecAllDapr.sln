@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\recall-secretstore.yaml = dapr\components\recall-secretstore.yaml
 		dapr\components\recall-secrets.json = dapr\components\recall-secrets.json
+		dapr\components\recall-pubsub.yaml = dapr\components\recall-pubsub.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{9CBBC384-2497-43B9-8963-85D6260DC325}"

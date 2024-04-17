@@ -13,7 +13,10 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     extra_hosts:
       - "host.docker.internal:host-gateway"
-  
+      
+  recall-rabbitmq:
+    image: rabbitmq:3-management-alpine 
+    
   recall-envoygateway:
     image: envoyproxy/envoy:v1.11.1
     extra_hosts:
