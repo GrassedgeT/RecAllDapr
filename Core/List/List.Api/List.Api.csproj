@@ -38,4 +38,9 @@
       <ProjectReference Include="..\List.Infrastructure\List.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Infrastructure\Migrations\IntegrationEventLog\" />
+      <Folder Include="Infrastructure\Migrations\List\" />
+    </ItemGroup>
+
 </Project>
