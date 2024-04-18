@@ -59,3 +59,10 @@ services:
     network_mode: "service:recall-listapi"
     depends_on:
       - recall-listapi
+      
+  recall-identity.api:
+    image: recall-identityapi
+    build:
+      context: .
+      dockerfile: Infrastructure/Identity.Api/Dockerfile
+  

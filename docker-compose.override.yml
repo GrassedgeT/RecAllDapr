@@ -87,6 +87,13 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
       
+  recall-identity.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "35105:8080"
+      #- "35106:443"
+      
 volumes:
   recall-sqldata:
     external: false
