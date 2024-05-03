@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecAll.Core.List.Api.Application.Commands;
 using RecAll.Core.List.Api.Application.Queries;
@@ -9,7 +10,9 @@ using TheSalLab.GeneralReturnValues;
 namespace RecAll.Core.List.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("[controller]")]
+
 public class ListController
 {
     private readonly IIdentityService _identityService;

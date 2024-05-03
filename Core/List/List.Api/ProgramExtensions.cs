@@ -4,9 +4,12 @@ using Autofac.Extensions.DependencyInjection;
 using Dapr.Client;
 using Dapr.Extensions.Configuration;
 using Infrastructure.Api;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.OpenApi.Models;
 using Polly;
 using RecAll.Core.List.Api.Infrastructure;
 using RecAll.Core.List.Api.Infrastructure.AutofacModules;
@@ -53,10 +56,6 @@ public static class ProgramExtensions
     
             builder.Host.UseSerilog();
     }
-    
-    public static void AddCustomSwagger(this WebApplicationBuilder builder) =>
-        builder.Services.AddSwaggerGen();
-    
     public static void
         AddCustomHealthChecks(this WebApplicationBuilder builder) =>
         builder.Services.AddHealthChecks()
@@ -65,7 +64,16 @@ public static class ProgramExtensions
                 builder.Configuration["ConnectionStrings:ListContext"]!,
                 name: "ListDb-check", tags: new[] { "ListDb" }).AddUrlGroup(
                 new Uri(builder.Configuration["TextListHealthCheck"]),
-                "TextListHealthCheck", tags: new[] { "TextList" });
+                "TextListHealthCheck", tags: new[] { "TextList" })
+            .AddSqlServer(
+                builder.Configuration["ConnectionStrings:TextItemContext"]!,
+                name: "TextListDb-check", tags: new[] {
+                    "TextListDb"
+                }).AddUrlGroup(
+                new Uri(builder.Configuration["IdentityServerHealthCheck"]),
+                "IdentityServerHealthCheck", tags: new[] {
+                    "IdentityServer"
+                });
 
     public static void AddCustomDatabase(this WebApplicationBuilder builder) {
         builder.Services.AddDbContext<ListContext>(options => {
@@ -111,11 +119,39 @@ public static class ProgramExtensions
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter)))
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.IncludeFields = true);
+    public static void AddCustomSwagger(this WebApplicationBuilder builder) {
+        builder.Services.AddSwaggerGen(options => {
+            options.AddSecurityDefinition("oauth2",
+                new OpenApiSecurityScheme {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows {
+                        Implicit = new OpenApiOAuthFlow {
+                            AuthorizationUrl =
+                                new Uri(
+                                    $"{builder.Configuration["IdentityServer"]}/connect/authorize"),
+                            TokenUrl =
+                                new Uri(
+                                    $"{builder.Configuration["IdentityServer"]}/connect/token"),
+                            Scopes = new Dictionary<string, string> {
+                                ["List"] = "List",
+                                ["TextList"] = "TextList",   
+                            }
+                        }
+                    }
+                });
 
+            options.OperationFilter<AuthorizeCheckOperationFilter>();
+        });
+    }
     public static void UseCustomSwagger(this WebApplication app) {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(options => {
+            options.OAuthClientId("ListApiSwaggerUI");
+            options.OAuthAppName("ListApiSwaggerUI");
+        });
     }
+
+
     
     public static void UserCustomCors(this WebApplication app) {
         app.UseCors("CorsPolicy");
@@ -140,7 +176,23 @@ public static class ProgramExtensions
                 .Wait();
         });
     }
-    
+    public static void AddCustomIdentityService(
+        this WebApplicationBuilder builder) {
+        // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+        var identityServerUrl = builder.Configuration["IdentityServer"];
+        builder.Services.AddAuthentication(options => {
+            options.DefaultAuthenticateScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options => {
+            options.Authority = identityServerUrl;
+            options.RequireHttpsMetadata = false;
+            options.Audience = "List";
+            options.TokenValidationParameters.ValidateIssuer = false;
+            options.TokenValidationParameters.SignatureValidator = (token, _) => new JsonWebToken(token);
+        });
+    } 
     private static Policy CreateRetryPolicy() {
         return Policy.Handle<Exception>().WaitAndRetryForever(
             sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
@@ -150,4 +202,6 @@ public static class ProgramExtensions
                     exception.GetType().Name, exception.Message, retry);
             });
     }
+    
+    
 }

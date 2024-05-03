@@ -16,7 +16,7 @@ public class ApplicationModule : Module {
     protected override void Load(ContainerBuilder builder) {
         builder.RegisterType<ListRepository>().As<IListRepository>()
             .InstancePerLifetimeScope();
-        builder.RegisterType<MockIdentityService>().As<IIdentityService>()
+        builder.RegisterType<IdentityService>().As<IIdentityService>()
             .InstancePerLifetimeScope();
         builder.RegisterType<SetRepository>().As<ISetRepository>()
             .InstancePerLifetimeScope();
