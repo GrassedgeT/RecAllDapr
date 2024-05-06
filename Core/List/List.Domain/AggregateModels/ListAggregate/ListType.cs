@@ -4,10 +4,14 @@ namespace RecAll.Core.List.Domain.AggregateModels;
 
 public class ListType : Enumeration {
     public const int TextId = 1;
-
+    public const int MaskedTextId = 2;
+    
     public static ListType Text = new(TextId, nameof(Text).ToLowerInvariant(),
         nameof(Text));
+    public static ListType MaskedText = new(MaskedTextId, nameof(MaskedText).ToLowerInvariant(),
+        nameof(MaskedText)); 
     // id: 1, name: text, displayName: Text
+    // id: 2, name: maskedtext, displayName: MaskedText
 
     public ListType(int id, string name, string displayName) : base(id, name,
         displayName) { }

@@ -9,6 +9,8 @@ public class ContribUrlService : IContribUrlService {
 
         if (listTypeId == ListType.Text.Id) {
             route = "text";
+        } else if (listTypeId == ListType.MaskedText.Id) {
+            route = "maskedtext";
         } else {
             throw new ArgumentOutOfRangeException(nameof(listTypeId),
                 $"有效取值为{string.Join(",", Enumeration.GetAll<ListType>().Select(p => p.Id.ToString()))}");
