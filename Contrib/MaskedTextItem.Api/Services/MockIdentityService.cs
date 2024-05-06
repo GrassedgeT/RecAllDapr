@@ -1,3 +1,5 @@
+using RecAll.Contrib.MaskedTextItem.Api.Services;
+
 namespace RecAll.Contrib.TextItem.Api.Services;
 
 public class MockIdentityService : IIdentityService {

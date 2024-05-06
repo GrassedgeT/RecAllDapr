@@ -40,12 +40,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\" />
-      <Folder Include="Controllers\" />
-      <Folder Include="Filter\" />
       <Folder Include="IntegrationEvents\" />
       <Folder Include="Migrations\" />
       <Folder Include="ViewModels\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure\Infrastructure.Api\Infrastructure.Api.csproj" />
     </ItemGroup>
 
 </Project>

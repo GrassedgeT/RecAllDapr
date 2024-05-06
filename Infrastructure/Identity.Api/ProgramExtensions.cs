@@ -28,6 +28,11 @@ public static class ProgramExtensions {
                 builder.Configuration["ConnectionStrings:IdentityContext"]!,
                 name: "TextListDb-check", tags: new[] {
                     "TextListDb"
+                })
+            .AddSqlServer(
+                builder.Configuration["ConnectionStrings:IdentityContext"]!,
+                name: "MaskedTextItemDb-check", tags: new[] {
+                    "MaskedTextItemDb"
                 });
 
     public static void AddCustomIdentityServer(

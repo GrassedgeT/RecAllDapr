@@ -8,7 +8,8 @@ public class ConfigurationDbContextSeed {
         IConfiguration configuration) {
         var clientUrlDict = new Dictionary<string, string> {
             ["ListApi"] = configuration.GetValue<string>("ListApi"),
-            ["TextListApi"] = configuration.GetValue<string>("TextListApi")
+            ["TextListApi"] = configuration.GetValue<string>("TextListApi"),
+            ["MaskedTextItemApi"] = configuration.GetValue<string>("MaskedTextItemApi"),
         };
 
         if (!context.Clients.Any()) {

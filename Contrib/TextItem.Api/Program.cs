@@ -31,7 +31,6 @@ app.MapControllers();
 app.MapSubscribeHandler();
 app.MapCustomHealthChecks(
     responseWriter: UIResponseWriter.WriteHealthCheckUIResponse);
-
 app.ApplyDatabaseMigration();
 
 app.Run();

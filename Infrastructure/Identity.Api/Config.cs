@@ -20,6 +20,11 @@ public class Config {
                 UserClaims = {
                     JwtClaimTypes.Audience
                 }
+            },
+            new("MaskedTextItem", "Masked Text Item") {
+                UserClaims = {
+                    JwtClaimTypes.Audience
+                }
             }
         };
 
@@ -36,6 +41,14 @@ public class Config {
             new("TextList", "Text List") {
                 Scopes = {
                     "TextList"
+                },
+                UserClaims = {
+                    JwtClaimTypes.Audience
+                }
+            },
+            new("MaskedTextItem", "Masked Text Item") {
+                Scopes = {
+                    "MaskedTextItem"
                 },
                 UserClaims = {
                     JwtClaimTypes.Audience
@@ -58,7 +71,7 @@ public class Config {
                     $"{clientUrlDict["ListApi"]}/swagger/"
                 },
                 AllowedScopes = {
-                    "List", "TextList"
+                    "List", "TextList", "MaskedTextItem"
                 }
             },
             new() {
@@ -74,6 +87,21 @@ public class Config {
                 },
                 AllowedScopes = {
                     "TextList"
+                }
+            },
+            new(){
+                ClientId = "MaskedTextItemApiSwaggerUI",
+                ClientName = "MaskedTextItemApiSwaggerUI",
+                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowAccessTokensViaBrowser = true,
+                RedirectUris = {
+                    $"{clientUrlDict["MaskedTextItemApi"]}/swagger/oauth2-redirect.html"
+                },
+                PostLogoutRedirectUris = {
+                    $"{clientUrlDict["MaskedTextItemApi"]}/swagger/"
+                },
+                AllowedScopes = {
+                    "MaskedTextItem"
                 }
             }
         };

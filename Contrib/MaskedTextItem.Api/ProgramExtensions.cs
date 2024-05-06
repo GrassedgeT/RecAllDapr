@@ -1,8 +1,17 @@
 using Dapr.Client;
 using Dapr.Extensions.Configuration;
+using Infrastructure.Api;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.OpenApi.Models;
 using Polly;
+using RecAll.Contrib.MaskedTextItem.Api.Filter;
 using RecAll.Contrib.MaskedTextItem.Api.Services;
+using Serilog;
+using TheSalLab.GeneralReturnValues;
 
 namespace RecAll.Contrib.MaskedTextItem.Api;
 
@@ -16,7 +25,85 @@ public static class ProgramExtensions
        builder.Configuration.AddDaprSecretStore("recall-secretstore",
            new DaprClientBuilder().Build());
    }
+
+   public static void AddCustomSerilog(this WebApplicationBuilder builder) {
+       var seqServerUrl = builder.Configuration["Serilog:SeqServerUrl"];
+
+       Log.Logger = new LoggerConfiguration().ReadFrom
+           .Configuration(builder.Configuration).WriteTo.Console().WriteTo
+           .Seq(seqServerUrl).Enrich.WithProperty("ApplicationName", AppName)
+           .CreateLogger();
+
+       builder.Host.UseSerilog();
+   }
    
+   public static void AddCustomSwagger(this WebApplicationBuilder builder) {
+       builder.Services.AddSwaggerGen(options => {
+           options.AddSecurityDefinition("oauth2",
+               new OpenApiSecurityScheme {
+                   Type = SecuritySchemeType.OAuth2,
+                   Flows = new OpenApiOAuthFlows {
+                       Implicit = new OpenApiOAuthFlow {
+                           AuthorizationUrl =
+                               new Uri(
+                                   $"{builder.Configuration["IdentityServer"]}/connect/authorize"),
+                           TokenUrl =
+                               new Uri(
+                                   $"{builder.Configuration["IdentityServer"]}/connect/token"),
+                           Scopes = new Dictionary<string, string> {
+                               ["MaskedTextItem"] = "MaskedTextItem",
+                           }
+                       }
+                   }
+               });
+
+           options.OperationFilter<AuthorizeCheckOperationFilter>();
+       });
+   }
+   public static void UseCustomSwagger(this WebApplication app) {
+       app.UseSwagger();
+       app.UseSwaggerUI(options => {
+           options.OAuthClientId("MaskedTextItemApiSwaggerUI");
+           options.OAuthAppName("MaskedTextItemApiSwaggerUI");
+       });
+   }
+   public static void AddCustomApplicationServices(
+       this WebApplicationBuilder builder) {
+       builder.Services.AddScoped<IIdentityService, IdentityService>();
+   }
+   public static void AddCustomHealthChecks(this WebApplicationBuilder builder)
+   {
+       builder.Services.AddHealthChecks()
+           .AddCheck("self", () => HealthCheckResult.Healthy()).AddDapr()
+           .AddSqlServer(
+               builder.Configuration["ConnectionStrings:MaskedTextItemContext"]!,
+               name: "MaskedTextItemDb-check", tags: new []
+               {
+                     "MaskedTextListDb"
+               }).AddUrlGroup(
+                    new Uri(builder.Configuration["IdentityServerHealthCheck"]),
+                    "IdentityServer-check", tags: new []
+                    {
+                        "IdentityServer"
+                    });
+   }
+   public static void AddCustomIdentityService(
+       this WebApplicationBuilder builder) {
+       // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+       var identityServerUrl = builder.Configuration["IdentityServer"];
+       builder.Services.AddAuthentication(options => {
+           options.DefaultAuthenticateScheme =
+               JwtBearerDefaults.AuthenticationScheme;
+           options.DefaultChallengeScheme =
+               JwtBearerDefaults.AuthenticationScheme;
+       }).AddJwtBearer(options => {
+           options.Authority = identityServerUrl;
+           options.RequireHttpsMetadata = false;
+           options.Audience = "MaskedTextItem";
+           options.TokenValidationParameters.ValidateIssuer = false;
+           options.TokenValidationParameters.SignatureValidator = (token, _) => new JsonWebToken(token);
+       });
+   }
    public static void AddCustomDatabase(this WebApplicationBuilder builder)
    {
        builder.Services.AddDbContext<MaskedTextItemContext>(options =>
@@ -38,5 +125,18 @@ public static class ProgramExtensions
              onRetry: (exception, retry, _) => {
                  Console.WriteLine($"Retry {retry} due to {exception.Message}");
              });
+   }
+   
+   public static void AddInvalidModelStateResponseFactory(this WebApplicationBuilder builder)
+   {
+       builder.Services.AddOptions().PostConfigure<ApiBehaviorOptions>(
+           options =>
+           {
+               options.InvalidModelStateResponseFactory = context =>
+                   new OkObjectResult(ServiceResult.CreateInvalidParameterResult(
+                           new ValidationProblemDetails(context.ModelState).Errors.Select(p =>
+                               $"{p.Key} : {string.Join("/", p.Value)}"))
+                       .ToServiceResultViewModel());
+           });
    }
 }

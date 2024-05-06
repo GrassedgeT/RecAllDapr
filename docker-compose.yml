@@ -42,7 +42,7 @@ services:
       - recall-textitemapi
       
   recall-maskedtextitemapi:
-    image: maskedtextitemapi
+    image: recall-maskedtextitemapi
     build:
       context: .
       dockerfile: Contrib/MaskedTextItem.Api/Dockerfile

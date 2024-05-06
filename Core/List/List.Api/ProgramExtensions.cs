@@ -69,6 +69,11 @@ public static class ProgramExtensions
                 builder.Configuration["ConnectionStrings:TextItemContext"]!,
                 name: "TextListDb-check", tags: new[] {
                     "TextListDb"
+                })
+            .AddSqlServer(
+                builder.Configuration["ConnectionStrings:MaskedTextItemContext"]!,
+                name: "MaskedTextListDb-check", tags: new[] {
+                    "MaskedTextListDb"
                 }).AddUrlGroup(
                 new Uri(builder.Configuration["IdentityServerHealthCheck"]),
                 "IdentityServerHealthCheck", tags: new[] {
@@ -134,7 +139,8 @@ public static class ProgramExtensions
                                     $"{builder.Configuration["IdentityServer"]}/connect/token"),
                             Scopes = new Dictionary<string, string> {
                                 ["List"] = "List",
-                                ["TextList"] = "TextList",   
+                                ["TextList"] = "TextList",
+                                ["MaskedTextItem"] = "MaskedTextItem",
                             }
                         }
                     }
